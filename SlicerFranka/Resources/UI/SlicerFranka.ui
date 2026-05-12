@@ -1,0 +1,1479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SlicerFranka</class>
+ <widget class="qMRMLWidget" name="SlicerFranka">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>SlicerFranka</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QFrame" name="connectionFrame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QPushButton" name="initializeButton">
+        <property name="text">
+         <string>Initialize Robot Connection</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="statusLabel">
+        <property name="text">
+         <string>Status: Not Connected</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="simRealFrame">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="modeLabel">
+        <property name="text">
+         <string>Control Mode:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="modeComboBox">
+        <item>
+         <property name="text">
+          <string>Simulation Only</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Real Robot</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="velocityFrame">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_16">
+      <item>
+       <widget class="QLabel" name="maxVelocityLabel">
+        <property name="text">
+         <string>Max Joint Velocity (rad/s):</string>
+        </property>
+        <property name="toolTip">
+         <string>Set the maximum velocity for joint movements (0.001 to 0.5 rad/s)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QDoubleSpinBox" name="maxVelocitySpinBox">
+        <property name="decimals">
+         <number>3</number>
+        </property>
+        <property name="minimum">
+         <double>0.001</double>
+        </property>
+        <property name="maximum">
+         <double>0.500</double>
+        </property>
+        <property name="singleStep">
+         <double>0.010</double>
+        </property>
+        <property name="value">
+         <double>0.050</double>
+        </property>
+        <property name="toolTip">
+         <string>Enter a value between 0.001 and 0.5 rad/s. Higher values = faster movement.</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="setMaxVelocityButton">
+        <property name="text">
+         <string>Apply</string>
+        </property>
+        <property name="toolTip">
+         <string>Click to apply the new velocity setting</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="controlTabWidget">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <!-- JOINT CONTROL TAB -->
+     <widget class="QWidget" name="jointControlTab">
+      <attribute name="title">
+       <string>Joint Control</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="jointControlLabel">
+         <property name="text">
+          <string>Joint Angle Control (rad)</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="joint1Frame">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="joint1Label">
+            <property name="text">
+             <string>Joint 1:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="joint1Slider">
+            <property name="minimum">
+             <number>-170</number>
+            </property>
+            <property name="maximum">
+             <number>170</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="tickPosition">
+             <enum>QSlider::TicksBelow</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="joint1SpinBox">
+            <property name="minimum">
+             <number>-170</number>
+            </property>
+            <property name="maximum">
+             <number>170</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="joint2Frame">
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QLabel" name="joint2Label">
+            <property name="text">
+             <string>Joint 2:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="joint2Slider">
+            <property name="minimum">
+             <number>-120</number>
+            </property>
+            <property name="maximum">
+             <number>120</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="tickPosition">
+             <enum>QSlider::TicksBelow</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="joint2SpinBox">
+            <property name="minimum">
+             <number>-120</number>
+            </property>
+            <property name="maximum">
+             <number>120</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="joint3Frame">
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QLabel" name="joint3Label">
+            <property name="text">
+             <string>Joint 3:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="joint3Slider">
+            <property name="minimum">
+             <number>-170</number>
+            </property>
+            <property name="maximum">
+             <number>170</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="tickPosition">
+             <enum>QSlider::TicksBelow</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="joint3SpinBox">
+            <property name="minimum">
+             <number>-170</number>
+            </property>
+            <property name="maximum">
+             <number>170</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="joint4Frame">
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QLabel" name="joint4Label">
+            <property name="text">
+             <string>Joint 4:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="joint4Slider">
+            <property name="minimum">
+             <number>-120</number>
+            </property>
+            <property name="maximum">
+             <number>120</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="tickPosition">
+             <enum>QSlider::TicksBelow</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="joint4SpinBox">
+            <property name="minimum">
+             <number>-120</number>
+            </property>
+            <property name="maximum">
+             <number>120</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="joint5Frame">
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QLabel" name="joint5Label">
+            <property name="text">
+             <string>Joint 5:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="joint5Slider">
+            <property name="minimum">
+             <number>-170</number>
+            </property>
+            <property name="maximum">
+             <number>170</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="tickPosition">
+             <enum>QSlider::TicksBelow</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="joint5SpinBox">
+            <property name="minimum">
+             <number>-170</number>
+            </property>
+            <property name="maximum">
+             <number>170</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="joint6Frame">
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QLabel" name="joint6Label">
+            <property name="text">
+             <string>Joint 6:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="joint6Slider">
+            <property name="minimum">
+             <number>-120</number>
+            </property>
+            <property name="maximum">
+             <number>120</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="tickPosition">
+             <enum>QSlider::TicksBelow</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="joint6SpinBox">
+            <property name="minimum">
+             <number>-120</number>
+            </property>
+            <property name="maximum">
+             <number>120</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="joint7Frame">
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <item>
+           <widget class="QLabel" name="joint7Label">
+            <property name="text">
+             <string>Joint 7:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="joint7Slider">
+            <property name="minimum">
+             <number>-170</number>
+            </property>
+            <property name="maximum">
+             <number>170</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="tickPosition">
+             <enum>QSlider::TicksBelow</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="joint7SpinBox">
+            <property name="minimum">
+             <number>-170</number>
+            </property>
+            <property name="maximum">
+             <number>170</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="homePositionButton">
+         <property name="text">
+          <string>Home Position</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     
+     <!-- CARTESIAN CONTROL TAB -->
+     <widget class="QWidget" name="cartesianControlTab">
+      <attribute name="title">
+       <string>Cartesian Control</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="cartesianControlLabel">
+         <property name="text">
+          <string>Cartesian Position Control</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="positionGroupBox">
+         <property name="title">
+          <string>Position (mm)</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QFrame" name="xPosFrame">
+            <layout class="QHBoxLayout" name="horizontalLayout_10">
+             <item>
+              <widget class="QLabel" name="xPosLabel">
+               <property name="text">
+                <string>X:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSlider" name="xPosSlider">
+               <property name="minimum">
+                <number>-1000</number>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="xPosSpinBox">
+               <property name="minimum">
+                <number>-1000</number>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="yPosFrame">
+            <layout class="QHBoxLayout" name="horizontalLayout_11">
+             <item>
+              <widget class="QLabel" name="yPosLabel">
+               <property name="text">
+                <string>Y:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSlider" name="yPosSlider">
+               <property name="minimum">
+                <number>-1000</number>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="yPosSpinBox">
+               <property name="minimum">
+                <number>-1000</number>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="zPosFrame">
+            <layout class="QHBoxLayout" name="horizontalLayout_12">
+             <item>
+              <widget class="QLabel" name="zPosLabel">
+               <property name="text">
+                <string>Z:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSlider" name="zPosSlider">
+               <property name="minimum">
+                <number>-1000</number>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="zPosSpinBox">
+               <property name="minimum">
+                <number>-1000</number>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="orientationGroupBox">
+         <property name="title">
+          <string>Orientation (deg)</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <widget class="QFrame" name="rollFrame">
+            <layout class="QHBoxLayout" name="horizontalLayout_13">
+             <item>
+              <widget class="QLabel" name="rollLabel">
+               <property name="text">
+                <string>Roll:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSlider" name="rollSlider">
+               <property name="minimum">
+                <number>-180</number>
+               </property>
+               <property name="maximum">
+                <number>180</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="rollSpinBox">
+               <property name="minimum">
+                <number>-180</number>
+               </property>
+               <property name="maximum">
+                <number>180</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="pitchFrame">
+            <layout class="QHBoxLayout" name="horizontalLayout_14">
+             <item>
+              <widget class="QLabel" name="pitchLabel">
+               <property name="text">
+                <string>Pitch:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSlider" name="pitchSlider">
+               <property name="minimum">
+                <number>-180</number>
+               </property>
+               <property name="maximum">
+                <number>180</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="pitchSpinBox">
+               <property name="minimum">
+                <number>-180</number>
+               </property>
+               <property name="maximum">
+                <number>180</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="yawFrame">
+            <layout class="QHBoxLayout" name="horizontalLayout_15">
+             <item>
+              <widget class="QLabel" name="yawLabel">
+               <property name="text">
+                <string>Yaw:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSlider" name="yawSlider">
+               <property name="minimum">
+                <number>-180</number>
+               </property>
+               <property name="maximum">
+                <number>180</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="yawSpinBox">
+               <property name="minimum">
+                <number>-180</number>
+               </property>
+               <property name="maximum">
+                <number>180</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="cartesianHomeButton">
+         <property name="text">
+          <string>Home Position</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     
+     <!-- MARKUPS CONTROL TAB -->
+     <widget class="QWidget" name="markupsControlTab">
+      <attribute name="title">
+       <string>Markups</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QLabel" name="markupsControlLabel">
+         <property name="text">
+          <string>Markup Trajectory Execution</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="markupsGroupBox">
+         <property name="title">
+          <string>Available Markups</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <widget class="QLabel" name="positionMarkupLabel">
+            <property name="text">
+             <string>Position Markup:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="markupsSelector"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="orientationMarkupLabel">
+            <property name="text">
+             <string>Orientation Markup (optional):</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="orientationMarkupsSelector"/>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="visualizeOrientationsCheckBox">
+            <property name="text">
+             <string>Visualize Orientations</string>
+            </property>
+            <property name="toolTip">
+             <string>Show direction vectors between position and orientation markups</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="holdOrientationCheckBox">
+            <property name="text">
+             <string>Hold Current Orientation</string>
+            </property>
+            <property name="toolTip">
+             <string>When enabled, maintains the robot's current orientation during trajectory execution instead of interpolating orientations</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="refreshMarkupsButton">
+            <property name="text">
+             <string>Refresh Markup List</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="publishMarkupsButton">
+            <property name="text">
+             <string>Publish Selected Markup</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="cancelTrajectoryButton">
+            <property name="text">
+             <string>Cancel Trajectory</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     
+     <!-- REGISTRATION TAB -->
+     <widget class="QWidget" name="registrationTab">
+      <attribute name="title">
+       <string>Registration</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_11">
+       <item>
+        <widget class="QLabel" name="registrationLabel">
+         <property name="text">
+          <string>Registration Point Collection</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="pFrameLabel">
+         <property name="text">
+          <string>P Frame Control Points:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeft</set>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="pFrameButtonFrame">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_17">
+          <item>
+           <widget class="QPushButton" name="addControlPointButtonPFrame">
+            <property name="text">
+             <string>Add Control Point</string>
+            </property>
+            <property name="toolTip">
+             <string>Add the current robot position as a P frame registration control point</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="clearControlPointsButtonPFrame">
+            <property name="text">
+             <string>Clear All Points</string>
+            </property>
+            <property name="toolTip">
+             <string>Remove all control points from the P frame registration fiducial list</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="pFrameControlPointsGroupBox">
+         <property name="title">
+          <string>P Frame Points</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_12">
+          <item>
+           <widget class="QTextEdit" name="pFrameControlPointsListText">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="font">
+             <font>
+              <family>Courier</family>
+             </font>
+            </property>
+            <property name="maximumHeight">
+             <number>100</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="qFrameLabel">
+         <property name="text">
+          <string>Q Frame Control Points:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeft</set>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="qFrameButtonFrame">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_18">
+          <item>
+           <widget class="QPushButton" name="addControlPointButtonQFrame">
+            <property name="text">
+             <string>Add Control Point</string>
+            </property>
+            <property name="toolTip">
+             <string>Add the current robot position as a Q frame registration control point</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="clearControlPointsButtonQFrame">
+            <property name="text">
+             <string>Clear All Points</string>
+            </property>
+            <property name="toolTip">
+             <string>Remove all control points from the Q frame registration fiducial list</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="qFrameControlPointsGroupBox">
+         <property name="title">
+          <string>Q Frame Points</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_13">
+          <item>
+           <widget class="QTextEdit" name="qFrameControlPointsListText">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="font">
+             <font>
+              <family>Courier</family>
+             </font>
+            </property>
+            <property name="maximumHeight">
+             <number>100</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="currentJointFrame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_9">
+      <item>
+       <widget class="QLabel" name="currentJointLabel">
+        <property name="text">
+         <string>Current Joint Positions (rad):</string>
+        </property>
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="currentJointGridFrame">
+        <layout class="QGridLayout" name="currentJointGridLayout">
+         <property name="horizontalSpacing">
+          <number>10</number>
+         </property>
+         <property name="margin">
+          <number>4</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="currentJoint1Label">
+           <property name="text">
+            <string>J1:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="currentJoint1Value">
+           <property name="text">
+            <string>0.0000</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="minimumWidth">
+            <number>40</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QFrame" name="verticalSeparator1">
+           <property name="frameShape">
+            <enum>QFrame::VLine</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QLabel" name="currentJoint2Label">
+           <property name="text">
+            <string>J2:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QLabel" name="currentJoint2Value">
+           <property name="text">
+            <string>0.0000</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="minimumWidth">
+            <number>40</number>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="currentJoint3Label">
+           <property name="text">
+            <string>J3:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="currentJoint3Value">
+           <property name="text">
+            <string>0.0000</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="minimumWidth">
+            <number>40</number>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QFrame" name="verticalSeparator2">
+           <property name="frameShape">
+            <enum>QFrame::VLine</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QLabel" name="currentJoint4Label">
+           <property name="text">
+            <string>J4:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="4">
+          <widget class="QLabel" name="currentJoint4Value">
+           <property name="text">
+            <string>0.0000</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="minimumWidth">
+            <number>40</number>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="currentJoint5Label">
+           <property name="text">
+            <string>J5:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="currentJoint5Value">
+           <property name="text">
+            <string>0.0000</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="minimumWidth">
+            <number>40</number>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QFrame" name="verticalSeparator3">
+           <property name="frameShape">
+            <enum>QFrame::VLine</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="3">
+          <widget class="QLabel" name="currentJoint6Label">
+           <property name="text">
+            <string>J6:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="4">
+          <widget class="QLabel" name="currentJoint6Value">
+           <property name="text">
+            <string>0.0000</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="minimumWidth">
+            <number>40</number>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="currentJoint7Label">
+           <property name="text">
+            <string>J7:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QFrame" name="verticalSeparator4">
+           <property name="frameShape">
+            <enum>QFrame::VLine</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLabel" name="currentJoint7Value">
+           <property name="text">
+            <string>0.0000</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="minimumWidth">
+            <number>40</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   
+   <item>
+    <widget class="QFrame" name="currentCartesianFrame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_10">
+      <item>
+       <widget class="QLabel" name="currentCartesianLabel">
+        <property name="text">
+         <string>Current Cartesian Pose:</string>
+        </property>
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="currentCartesianGridFrame">
+        <layout class="QGridLayout" name="currentCartesianGridLayout">
+         <property name="horizontalSpacing">
+          <number>10</number>
+         </property>
+         <property name="margin">
+          <number>4</number>
+         </property>
+         <!-- Position values -->
+         <item row="0" column="0">
+          <widget class="QLabel" name="currentXLabel">
+           <property name="text">
+            <string>X (mm):</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="currentXPos">
+           <property name="text">
+            <string>0.0000</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="minimumWidth">
+            <number>40</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QFrame" name="cartVerticalSeparator1">
+           <property name="frameShape">
+            <enum>QFrame::VLine</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QLabel" name="currentYLabel">
+           <property name="text">
+            <string>Y (mm):</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QLabel" name="currentYPos">
+           <property name="text">
+            <string>0.0000</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="minimumWidth">
+            <number>40</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="5">
+          <widget class="QFrame" name="cartVerticalSeparator2">
+           <property name="frameShape">
+            <enum>QFrame::VLine</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="6">
+          <widget class="QLabel" name="currentZLabel">
+           <property name="text">
+            <string>Z (mm):</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="7">
+          <widget class="QLabel" name="currentZPos">
+           <property name="text">
+            <string>0.0000</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="minimumWidth">
+            <number>40</number>
+           </property>
+          </widget>
+         </item>
+         
+         <!-- Horizontal separator -->
+         <item row="1" column="0" colspan="8">
+          <widget class="QFrame" name="cartHorizontalSeparator">
+           <property name="frameShape">
+            <enum>QFrame::HLine</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
+           </property>
+          </widget>
+         </item>
+         
+         <!-- Orientation values -->
+         <item row="2" column="0">
+          <widget class="QLabel" name="currentRollLabel">
+           <property name="text">
+            <string>Roll (rad):</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="currentRoll">
+           <property name="text">
+            <string>0.0000</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="minimumWidth">
+            <number>40</number>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QFrame" name="cartVerticalSeparator3">
+           <property name="frameShape">
+            <enum>QFrame::VLine</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="3">
+          <widget class="QLabel" name="currentPitchLabel">
+           <property name="text">
+            <string>Pitch (rad):</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="4">
+          <widget class="QLabel" name="currentPitch">
+           <property name="text">
+            <string>0.0000</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="minimumWidth">
+            <number>40</number>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="5">
+          <widget class="QFrame" name="cartVerticalSeparator4">
+           <property name="frameShape">
+            <enum>QFrame::VLine</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
+           </property>
+           <property name="lineWidth">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="6">
+          <widget class="QLabel" name="currentYawLabel">
+           <property name="text">
+            <string>Yaw (rad):</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="7">
+          <widget class="QLabel" name="currentYaw">
+           <property name="text">
+            <string>0.0000</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="minimumWidth">
+            <number>40</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="logFrame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_8">
+      <item>
+       <widget class="QLabel" name="logLabel">
+        <property name="text">
+         <string>Log:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTextEdit" name="logTextEdit">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>qMRMLWidget</class>
+   <extends>QWidget</extends>
+   <header>qMRMLWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
