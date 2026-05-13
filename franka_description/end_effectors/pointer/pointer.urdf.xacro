@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="pointer">
+    <xacro:include filename="$(find franka_description)/end_effectors/common/utils.xacro" />
+    <xacro:include filename="$(find franka_description)/end_effectors/franka_hand/pointer_arguments.xacro"/>
+
+    <xacro:macro name="pointer" params="description_pkg:=franka_description ee_inertials:='${xacro.load_yaml(\'$(find franka_description)/end_effectors/pointer/inertials.yaml\')}'">
+        <joint name="${(arg arm_id)}_hand_joint" type="fixed">
+          <parent link="$(arg connection)" />
+          <child link="${(arg arm_id)}_hand" />
+            <origin xyz="$0 0 0" rpy="0 0 ${-pi/4}" />
+        </joint>
+
+        <link name="pointer_ee">
+            <visual name="pointer_ee_visual">
+                <geometry>
+                    <mesh filename="package://${description_pkg}/meshes/robot_ee/pointer/visual/pointer.stl" />
+                </geometry>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://${description_pkg}/meshes/robot_ee/pointer/collision/pointer.stl" />
+                </geometry>
+            </collision>
+        </link>
+    </xacro:macro>
+</robot>
