@@ -3,7 +3,7 @@
 <img src="SlicerFranka/Resources/Icons/SlicerFranka.png" alt="SlicerFranka Module" width="250"/>
 
 A 3D Slicer module to track and control the Franka Robots using ROS2.
-It relies on [SlicerROS2](https://github.com/rosmed/slicer_ros2_module) for ROS2 communication and a [Franka Controller](./medcvr_franka) for actually moving the robot.
+It relies on [SlicerROS2](https://github.com/rosmed/slicer_ros2_module) for ROS2 communication and a [Franka Controller](./franka_controller) for actually moving the robot.
 
 ## Features
 
@@ -35,7 +35,7 @@ The library is setup such that 3D Slicer and the Franka controller can be run on
 - This MUST be done on a real-time kernel
 - This has been tested on Ubuntu 22.04 with ROS2 Humble (and Ubuntu 24.04 with ROS2 Jazzy)
 - Install [libfranka](https://github.com/frankaemika/libfranka)
-- Follow the instructions in [medcvr_franka](./medcvr_franka) to set up the Franka controller.
+- Follow the instructions in [franka_controller](./franka_controller) to set up the Franka controller.
 
 You're all set up!
 

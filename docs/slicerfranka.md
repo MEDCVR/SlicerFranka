@@ -54,9 +54,9 @@ The Slicer-side robot model and the physical robot share the Franka base frame, 
 - The Cartesian UI is mm/deg (RPY). Outgoing tip-pose commands convert RPY → rotation matrix → quaternion (`PoseStamped`); inbound `tip_pose` arrives as a 4×4 matrix that `_tip_pose_callback` decomposes back to RPY via `asin`/`atan2` with an explicit gimbal-lock branch, then wraps roll/yaw to `[0, 2π)` to match the UI's convention.
 - SlicerROS2 handles Slicer↔ROS unit conversions at the MRML node boundary; the module code works in Slicer units.
 
-### Tool-tip offset (pivot calibration)
+### Tool-tip offset
 
-The pen/probe extension added to the flange is not in the URDF and is not knowable a priori. The controller performs a one-time pivot calibration (algebraic sphere-fitting) and applies the resulting offset throughout, so the tip poses on both the command and feedback topics correspond to the physical drawing point. This is entirely controller-side — the module does not know or care about the offset.
+The pen/probe extension added to the flange is not in the URDF and is not knowable a priori. The open-source controller reads a flange-to-tip transform from its YAML config (`flange_to_tip_translation_m`, `flange_to_tip_quaternion_xyzw`) and applies it to both commanded and reported tip poses, so the topics describe the physical drawing point rather than the flange. Measure the pen length once and set the value. In our lab we additionally run a one-time pivot calibration (algebraic sphere-fitting) to populate this offset, but that calibration step is not part of this release. This is entirely controller-side — the module does not know or care about the offset.
 
 ## End-to-end: a trajectory from click to measured state
 
