@@ -33,18 +33,9 @@ This is the contract a controller must implement to be compatible with the Slice
 
 ## Design decisions
 
-### The Sim/Real split and the visualization joint topic
-
-The Slicer-side robot model is driven by TF from `robot_state_publisher`, which is configured to read joint states from `/franka/slicer/joint_state`, not directly from `/franka/current/joint_state`. The indirection enables both modes:
-
-- **Real mode.** `_joint_state_callback` receives `/franka/current/joint_state` and republishes it on `/franka/slicer/joint_state`. The Slicer model reflects what the physical robot is actually doing.
-- **Simulation mode.** A Slicer-side timer interpolates `current_joint_positions` toward `target_joint_positions` and publishes directly to `/franka/slicer/joint_state`. No `/current/` topics are involved. Nothing pretends to be a physical robot.
-
-Simulation mode enables joint space planning without a robot.
-
 ### Control modes enable four behaviors
 
-The four control tabs map to robot-side modes via a single string topic, `/franka/control_mode`. When the robot is not executing a `trajectory`, it could be controlled in `joint` or `cartesian` space. Or it could be totally `compliant`, allowing the user to to hand-guide the end-effector, collecting points for registration.
+The four control tabs map to robot-side modes via a single string topic, `/franka/control_mode`. When the robot is not executing a `trajectory`, it could be controlled in `joint` or `cartesian` space. Or it could be totally `compliant`, allowing the user to hand-guide the end-effector, collecting points for registration.
 With the controller in compliant mode, the user hand-guides the tip to physical fiducials and clicks "Add control point". The current measured tip position is appended to the `p_frame` or `q_frame` markup node. Model-space points are picked manually in Slicer. Registration itself uses Slicer's Fiducial Registration module; no points are sent over ROS.
 
 ### Coordinate frames and units
@@ -67,6 +58,6 @@ The pen/probe extension added to the flange is not in the URDF and is not knowab
 5. SlicerROS2 fires `ModifiedEvent` on each inbound message. `_joint_state_callback` mirrors the joints into `/franka/slicer/joint_state` (driving the Slicer model); `_tip_pose_callback` updates the EE marker and the Cartesian display; `_trajectory_status_callback` updates the UI status indicator.
 6. **Cancel** publishes `/franka/trajectory/command` = `cancel`. The controller interrupts and reports `canceled`.
 
-### Trajectory execution lives in the controller, not in Slicer
+### Trajectory parameterized by the controller, not Slicer
 
 Slicer publishes discrete waypoints; the controller does the rest. Concretely the controller runs each waypoint through IK, fits a piecewise-polynomial joint-space path, applies TOPP-RA for time-optimal parameterization under joint velocity/acceleration limits, and discretizes for the PD loop.

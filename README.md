@@ -1,9 +1,11 @@
 # SlicerFranka
 
-<img src="SlicerFranka/Resources/Icons/SlicerFranka.png" alt="SlicerFranka Module" width="250"/>
-
 A 3D Slicer module to track and control the Franka Robots using ROS2.
 It relies on [SlicerROS2](https://github.com/rosmed/slicer_ros2_module) for ROS2 communication and a [Franka Controller](./medcvr_franka) for actually moving the robot.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/SxC2sl_dKN4?si=7wGOILRDNwXEcl17" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+See [paper website](https://medcvr.utm.utoronto.ca/EMBC2026-SlicerFranka.html) for more details.
 
 ## Features
 
