@@ -12,11 +12,11 @@ The two containers communicate over ROS 2 / DDS. They can run on the same host o
 ```bash
 # Slicer
 docker pull ghcr.io/iselein/slicerfranka-slicer:5.10.0-jazzy
-./container/run-slicer.sh
+./containers/run-slicer.sh
 
 # Controller (on a PREEMPT_RT host, can be the same or a different PC)
 docker pull ghcr.io/iselein/slicerfranka-controller:0.9.2-jazzy
-./container/run-controller.sh
+./containers/run-controller.sh
 ```
 
 ## Building from source
@@ -25,8 +25,8 @@ The Slicer image takes ~30–60 minutes to build (Slicer SuperBuild is the long 
 
 ```bash
 # From the repo root.
-docker build -f container/slicer.dockerfile     -t slicerfranka-slicer:local .
-docker build -f container/controller.dockerfile -t slicerfranka-controller:local .
+docker build -f containers/slicer.dockerfile     -t slicerfranka-slicer:local .
+docker build -f containers/controller.dockerfile -t slicerfranka-controller:local .
 ```
 
 Both images run as the default `ubuntu` user (UID 1000) that ships in the Ubuntu 24.04 base. If your host UID isn't 1000, files written through bind mounts will be owned by UID 1000 on the host — you'll still be able to read/write them, just check `ls -l` if something looks off.
@@ -34,8 +34,8 @@ Both images run as the default `ubuntu` user (UID 1000) that ships in the Ubuntu
 To launch the locally-built images instead of the registry ones:
 
 ```bash
-SLICER_IMAGE=slicerfranka-slicer:local         ./container/run-slicer.sh
-CONTROLLER_IMAGE=slicerfranka-controller:local ./container/run-controller.sh
+SLICER_IMAGE=slicerfranka-slicer:local         ./containers/run-slicer.sh
+CONTROLLER_IMAGE=slicerfranka-controller:local ./containers/run-controller.sh
 ```
 
 ## What's baked vs mounted

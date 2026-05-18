@@ -9,7 +9,7 @@
 #   - Connected to the Franka Robot
 #
 # Usage:
-#   ./container/run-controller.sh
+#   ./containers/run-controller.sh
 
 set -e
 

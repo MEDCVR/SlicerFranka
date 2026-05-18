@@ -27,22 +27,22 @@ cd SlicerFranka
 
 # Slicer side (any Linux desktop with X11)
 docker pull ghcr.io/iselein/slicerfranka-slicer:5.10.0-jazzy
-./container/run-slicer.sh
+./containers/run-slicer.sh
 
 # Controller side (PREEMPT_RT-patched host connected to the Franka robot;
 # can be the same machine or a different one on the same network)
 docker pull ghcr.io/iselein/slicerfranka-controller:0.9.2-jazzy
-./container/run-controller.sh
+./containers/run-controller.sh
 ```
 
-See [container/README.md](./container/README.md) for build-from-source instructions, GPU support (`--gpu` flag), and the full host-prerequisite list.
+See [containers/README.md](./containers/README.md) for build-from-source instructions, GPU support (`--gpu` flag), and the full host-prerequisite list.
 
 ## Dependencies
 
 - Franka robot
 - [Libfranka](https://github.com/frankaemika/libfranka)
 - 3D Slicer (built from source)
-- ROS2 — tested on **Humble (Ubuntu 22.04)** and **Jazzy (Ubuntu 24.04)**
+- ROS2: tested on **Humble (Ubuntu 22.04)** and **Jazzy (Ubuntu 24.04)**
 - [SlicerROS2](https://github.com/rosmed/slicer_ros2_module)
 
 ## Manual installation

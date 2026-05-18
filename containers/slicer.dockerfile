@@ -7,13 +7,13 @@
 # Build (from repo root):
 #   docker build \
 #     --build-arg UID=$(id -u) --build-arg GID=$(id -g) \
-#     -f container/slicer.dockerfile \
+#     -f containers/slicer.dockerfile \
 #     -t slicerfranka-slicer:local .
 #
 # Or pull the prebuilt image:
 #   docker pull ghcr.io/iselein/slicerfranka-slicer:5.10.0-jazzy
 #
-# See container/run-slicer.sh for the recommended `docker run` invocation.
+# See containers/run-slicer.sh for the recommended `docker run` invocation.
 
 FROM ubuntu:24.04
 
@@ -106,7 +106,7 @@ RUN { \
     } >> /home/ubuntu/.bashrc
 
 USER root
-COPY container/slicer-entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY containers/slicer-entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 USER ubuntu
 

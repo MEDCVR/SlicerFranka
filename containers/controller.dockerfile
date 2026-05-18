@@ -7,13 +7,13 @@
 # Build (from repo root):
 #   docker build \
 #     --build-arg UID=$(id -u) --build-arg GID=$(id -g) \
-#     -f container/controller.dockerfile \
+#     -f containers/controller.dockerfile \
 #     -t slicerfranka-controller:local .
 #
 # Or pull the prebuilt image:
 #   docker pull ghcr.io/iselein/slicerfranka-controller:0.9.2-jazzy
 #
-# See container/run-controller.sh for the recommended `docker run` invocation
+# See containers/run-controller.sh for the recommended `docker run` invocation
 # (RT capabilities, host networking).
 
 FROM ubuntu:24.04
@@ -96,7 +96,7 @@ RUN { \
     } >> /home/ubuntu/.bashrc
 
 USER root
-COPY container/controller-entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY containers/controller-entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 USER ubuntu
 

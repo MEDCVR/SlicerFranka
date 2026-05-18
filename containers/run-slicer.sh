@@ -4,8 +4,8 @@
 # franka_description bind-mounted from the host.
 #
 # Usage:
-#   ./container/run-slicer.sh           # CPU/software-GL rendering
-#   ./container/run-slicer.sh --gpu     # NVIDIA GPU passthrough (needs
+#   ./containers/run-slicer.sh          # CPU/software-GL rendering
+#   ./containers/run-slicer.sh --gpu    # NVIDIA GPU passthrough (needs
 #                                       # nvidia-container-toolkit on host)
 
 set -e
