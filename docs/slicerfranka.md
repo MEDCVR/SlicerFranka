@@ -5,10 +5,10 @@ For the installation guide, refer to the [README](../README.md)
 Three components share the work:
 
 - **The SlicerFranka module** (this repo, under `SlicerFranka/`). A 3D Slicer scripted-loadable module. Manages the UI, markup-driven trajectory planning, registration workflows, and the Slicer-side robot model. It is **not** a real-time process and does no IK or joint-rate limiting on the command path.
-- **The robot-side controller** (e.g. [`medcvr_franka`](../medcvr_franka)). Runs on a PREEMPT_RT-patched Linux kernel. Manages the real-time PD loop, IK, mode-specific motion generation (joint rate-limiting, Cartesian interpolation, trajectory time-parameterization via TOPP-RA), and gravity-compensation for compliant mode. Publishes measured state back to Slicer.
+- **The robot-side controller** (e.g. [`franka_controller`](../franka_controller)). Runs on a PREEMPT_RT-patched Linux kernel. Manages the real-time PD loop, IK, mode-specific motion generation (joint rate-limiting, Cartesian interpolation, trajectory time-parameterization via TOPP-RA), and gravity-compensation for compliant mode. Publishes measured state back to Slicer.
 - **SlicerROS2.** The bridge inside Slicer. Wraps ROS 2 publishers/subscribers as MRML nodes, lets you observe inbound messages via VTK's `ModifiedEvent`, and handles the Python ↔ rclcpp boundary.
 
-![Architecture Diagram](images/architecture.png)
+![Architecture Diagram](images/architecture-white.png)
 
 The two SlicerFranka and controller components can run on the same machine or on two networked machines — DDS handles discovery either way. Splitting them is common because Slicer needs a desktop graphical environment and the controller needs a real-time kernel, and the two requirements can be at odds.
 

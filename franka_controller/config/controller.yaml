@@ -17,7 +17,7 @@ current_tip_pose_topic: /franka/current/tip_pose
 base_frame_id: panda_link0
 tip_frame_id: pointer_tip
 
-flange_to_tip_translation_m: [0.0, 0.0, 0.14]
+flange_to_tip_translation_m: [0.0, 0.0, 0.135]
 flange_to_tip_quaternion_xyzw: [0.0, 0.0, 0.0, 1.0]
 
 execution_rate_hz: 250
@@ -32,5 +32,5 @@ entry_dwell_seconds: 0.25
 
 stop_on_ik_failure: true
 
-k_gains: [600.0, 900.0, 600.0, 300.0, 300.0, 200.0, 100.0]
-d_gains: [50.0,   70.0,  70.0,  60.0, 30.0, 15.0, 10.0]
+k_gains: [800.0, 1100.0, 1200.0, 1000.0, 550.0, 340.0, 200.0]
+d_gains: [25.0, 25.0, 25.0, 25.0, 14.0, 12.0, 9.0]

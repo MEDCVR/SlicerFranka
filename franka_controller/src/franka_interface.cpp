@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 
+#include <franka/exception.h>
 #include <rclcpp/rclcpp.hpp>
 
 namespace franka_controller

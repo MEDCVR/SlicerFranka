@@ -38,7 +38,7 @@ class JointImpedance
 
     static constexpr double commandJointPositionToleranceRad()
     {
-        return 0.08;
+        return 0.5;
     }
 
     // Force-sync the commanded position and the dq filter to the measured
