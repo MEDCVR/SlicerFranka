@@ -19,23 +19,30 @@ See the video below, and the [paper website](https://medcvr.utm.utoronto.ca/EMBC
 
 ## Quick start with Docker
 
-The fastest path to a working SlicerFranka. The prebuilt images include 3D Slicer (built from source), SlicerROS2, libfranka, TOPP-RA, and the SlicerFranka and franka_controller code — no native install needed.
+Build the two development images locally. They include 3D Slicer, SlicerROS2,
+libfranka, and TOPP-RA; the repository source is mounted into disposable
+containers at run time.
 
 ```bash
 git clone https://github.com/MEDCVR/SlicerFranka.git
 cd SlicerFranka
 
 # Slicer side (any Linux desktop with X11)
-docker pull ghcr.io/iselein/slicerfranka-slicer:5.10.0-jazzy
+docker build -f containers/slicer.dockerfile -t slicerfranka-slicer:local .
 ./containers/run-slicer.sh
+# At the container prompt:
+slicer
 
 # Controller side (PREEMPT_RT-patched host connected to the Franka robot;
 # can be the same machine or a different one on the same network)
-docker pull ghcr.io/iselein/slicerfranka-controller:0.9.2-jazzy
+docker build -f containers/controller.dockerfile -t slicerfranka-controller:local .
 ./containers/run-controller.sh
+# At the container prompt:
+ctlr
 ```
 
-See [containers/README.md](./containers/README.md) for build-from-source instructions, GPU support (`--gpu` flag), and the full host-prerequisite list.
+See [containers/README.md](./containers/README.md) for GPU support (`--gpu`),
+container lifecycle details, and the full host-prerequisite list.
 
 ## Dependencies
 

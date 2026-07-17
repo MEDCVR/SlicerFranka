@@ -1,17 +1,11 @@
 # Franka controller container.
 #
-# Bakes in: ROS Jazzy base, libfranka 0.9.2, TOPP-RA C++, Eigen, yaml-cpp,
-# build toolchain. franka_controller and franka_description are
-# bind-mounted at run time and built by the entrypoint on first launch.
+# ROS Jazzy base, libfranka 0.9.2, TOPP-RA C++, Eigen, and yaml-cpp.
 #
 # Build (from repo root):
 #   docker build \
-#     --build-arg UID=$(id -u) --build-arg GID=$(id -g) \
 #     -f containers/controller.dockerfile \
 #     -t slicerfranka-controller:local .
-#
-# Or pull the prebuilt image:
-#   docker pull ghcr.io/iselein/slicerfranka-controller:0.9.2-jazzy
 #
 # See containers/run-controller.sh for the recommended `docker run` invocation
 # (RT capabilities, host networking).
@@ -20,6 +14,7 @@ FROM ubuntu:24.04
 
 ARG ROS_DISTRO=jazzy
 ARG LIBFRANKA_VERSION=0.9.2
+ARG TOPPRA_VERSION=0.6.8
 
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=en_US.UTF-8 \
@@ -55,7 +50,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # --- libfranka from source ---
 WORKDIR /opt
-RUN git clone --recursive --branch ${LIBFRANKA_VERSION} \
+RUN git clone --recursive --depth 1 --shallow-submodules --branch ${LIBFRANKA_VERSION} \
         https://github.com/frankaemika/libfranka
 RUN mkdir -p /opt/libfranka/build
 WORKDIR /opt/libfranka/build
@@ -67,18 +62,19 @@ RUN cmake -DCMAKE_BUILD_TYPE=Release \
 
 # --- TOPP-RA (C++ only, no pinocchio dep) ---
 WORKDIR /opt
-RUN git clone https://github.com/hungpham2511/toppra
+RUN git clone --depth 1 --branch ${TOPPRA_VERSION} \
+        https://github.com/hungpham2511/toppra
 RUN mkdir -p /opt/toppra/cpp/build
 WORKDIR /opt/toppra/cpp/build
 RUN cmake -DCMAKE_BUILD_TYPE=Release \
+        -DBUILD_TESTING=OFF \
+        -DPYTHON_BINDINGS=OFF \
         -DBUILD_WITH_PINOCCHIO=OFF .. \
  && make -j$(nproc) \
  && make install \
  && ldconfig
 
 # --- user setup ---
-# Ubuntu 24.04 base images ship with a default `ubuntu` user at UID 1000.
-# We reuse it as-is and just grant sudo.
 RUN echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/ubuntu \
  && chmod 0440 /etc/sudoers.d/ubuntu \
  && chsh -s /bin/bash ubuntu

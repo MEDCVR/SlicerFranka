@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Controller container entrypoint.
-# Sources ROS + workspace, builds franka_controller (and franka_description
-# if mounted) on first launch.
-set -e
+# Sources ROS + workspace and builds the mounted packages in each disposable
+# container.
+set -eo pipefail
 
 ROS_DISTRO="${ROS_DISTRO:-jazzy}"
 WS="/home/ubuntu/ros2_ws"
@@ -15,7 +15,7 @@ NEED_BUILD=0
 
 if [ "${NEED_BUILD}" -eq 1 ]; then
     echo "[entrypoint] building workspace (franka_description, franka_controller)..."
-    (cd "${WS}" && colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release)
+    (cd "${WS}" && colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF)
 fi
 
 if [ -f "${WS}/install/setup.bash" ]; then
